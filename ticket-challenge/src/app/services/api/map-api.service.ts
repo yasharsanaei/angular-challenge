@@ -6,12 +6,12 @@ import {
     MapResponse,
     MapTicketBody,
     MapTicketResponse,
-} from '../utils/types/map';
+} from '../../utils/types/map';
 
 @Injectable({
     providedIn: 'root',
 })
-export class MapService extends ApiService {
+export class MapApiService extends ApiService {
     entity: string = 'map';
 
     //TODO: GET /map -> ['m213', 'm654', 'm63', 'm6888']
