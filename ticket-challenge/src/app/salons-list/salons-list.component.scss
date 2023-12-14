@@ -1,50 +1,49 @@
-div {
-    width: 100%;
-    height: 100vh;
-    background: #242639;
+:host {
+    flex-grow: 1;
+    margin: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+}
 
-    section {
-        max-width: 50%;
+section {
+    max-width: 50%;
+    background: #fff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px;
+
+    .loading {
+        height: auto;
         background: #fff;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        flex-direction: row-reverse;
-        flex-wrap: wrap;
-        justify-content: space-between;
+    }
+
+    .error {
+        height: auto;
+        background: #fff;
+    }
+
+    a {
         padding: 10px;
+        margin: 5px 0;
+        width: 45%;
+        color: #fff;
+        background: #242639;
+        text-align: center;
+        border-radius: 4px;
+        font-size: 1.2em;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all ease-in-out 200ms;
 
-        .loading {
-            height: auto;
-            background: #fff;
-        }
-
-        .error {
-            height: auto;
-            background: #fff;
-        }
-
-        a {
-            padding: 10px;
-            margin: 5px 0;
-            width: 45%;
-            color: #fff;
-            background: #242639;
-            text-align: center;
-            border-radius: 4px;
-            font-size: 1.2em;
-            font-weight: bold;
-            text-decoration: none;
-            transition: all ease-in-out 200ms;
-
-            &:hover {
-                scale: 1.05;
-                background: lighten(#242639, 5)
-            }
+        &:hover {
+            scale: 1.05;
+            background: lighten(#242639, 5)
         }
     }
 }
