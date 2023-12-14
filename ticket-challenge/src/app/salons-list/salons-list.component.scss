@@ -18,7 +18,17 @@ div {
         justify-content: space-between;
         padding: 10px;
 
-        span {
+        .loading {
+            height: auto;
+            background: #fff;
+        }
+
+        .error {
+            height: auto;
+            background: #fff;
+        }
+
+        a {
             padding: 10px;
             margin: 5px 0;
             width: 45%;
@@ -28,6 +38,13 @@ div {
             border-radius: 4px;
             font-size: 1.2em;
             font-weight: bold;
+            text-decoration: none;
+            transition: all ease-in-out 200ms;
+
+            &:hover {
+                scale: 1.05;
+                background: lighten(#242639, 5)
+            }
         }
     }
 }

@@ -1,17 +1,14 @@
 <div>
     <section>
-        <!-- 
-            You should get the list of values from https://ticket-challange.herokuapp.com/map
-            Each span should link to the plan page of that salon.
-        -->
-        <span>سالن ۱</span>
-        <span>سالن ۲</span>
-        <span>سالن ۳</span>
-        <span>سالن ۴</span>
-        <span>سالن ۵</span>
-        <span>سالن ۶</span>
-        <span>سالن ۷</span>
-        <span>سالن ۸</span>
-        <span>سالن ۹</span>
+        <div class="loading" *ngIf="map.isFetching$ | async">در حال دریافت اطلاعات</div>
+        <div class="error" *ngIf="map.isError$ | async">
+            <p>خطا در دریافت اطلاعات</p>
+            <button (click)="map.update()">تلاش مجدد</button>
+        </div>
+        <ng-container *ngIf="map.isSuccess$ | async">
+            <a *ngFor="let item of map.data$ | async;index as index" [routerLink]="['map',item]">
+                <span>{{ index + 1 }} سالن </span>
+            </a>
+        </ng-container>
     </section>
 </div>
