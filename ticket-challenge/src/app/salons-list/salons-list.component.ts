@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { MapService } from '../services/map.service';
 import { ReactiveState } from '../utils/reactive-state/reactive-state';
 import { MapResponse } from '../utils/types/map';
@@ -8,7 +9,8 @@ import { MapResponse } from '../utils/types/map';
     templateUrl: './salons-list.component.html',
     styleUrls: ['./salons-list.component.scss'],
 })
-export class SalonsListComponent implements OnInit {
+export class SalonsListComponent implements OnInit, OnDestroy {
+    #onDestroy$: Subject<void> = new Subject<void>();
     map: ReactiveState<MapResponse>;
 
     constructor(private _mapService: MapService) {
@@ -16,6 +18,15 @@ export class SalonsListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.map.update();
+        this.map.data$.pipe(takeUntil(this.#onDestroy$)).subscribe({
+            next: (value) => {
+                if (!value) this.map.update();
+            },
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.#onDestroy$.next();
+        this.#onDestroy$.complete();
     }
 }

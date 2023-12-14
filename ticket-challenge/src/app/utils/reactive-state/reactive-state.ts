@@ -28,8 +28,8 @@ export class ReactiveState<T> {
         return this.#isError$.asObservable();
     }
 
-    get isFetchedYet(): Observable<boolean> {
-        return this.#isFetchedYet;
+    get isFetchedYet$(): Observable<boolean> {
+        return this.#isFetchedYet$;
     }
 
     readonly #update: FetcherFunction<T>;
@@ -38,7 +38,7 @@ export class ReactiveState<T> {
     #isFetching$: BehaviorSubject<boolean>;
     #isSuccess$: BehaviorSubject<boolean>;
     #isError$: BehaviorSubject<boolean>;
-    readonly #isFetchedYet: Observable<boolean>;
+    readonly #isFetchedYet$: Observable<boolean>;
 
     protected constructor(update: FetcherFunction<T>) {
         this.#update = update;
@@ -46,7 +46,7 @@ export class ReactiveState<T> {
         this.#isFetching$ = new BehaviorSubject<boolean>(false);
         this.#isSuccess$ = new BehaviorSubject<boolean>(false);
         this.#isError$ = new BehaviorSubject<boolean>(false);
-        this.#isFetchedYet = combineLatest([
+        this.#isFetchedYet$ = combineLatest([
             this.#isSuccess$,
             this.#isError$,
             this.#isFetching$,
@@ -70,10 +70,16 @@ export class ReactiveState<T> {
         this.#isFetching$.next(false);
         this.#isSuccess$.next(false);
         this.#isError$.next(true);
-        console.log('Error on updating ReactiveState: ', e);
+        console.error('Error on updating ReactiveState: ', e);
     };
 
-    update<D>(params?: D, key?: any[]) {
+    update<D>(params?: D) {
+        if (this.#isFetching$.value) {
+            console.warn(
+                'You were trying to update the state while it was fetching and not yet received any value!',
+            );
+            return;
+        }
         if (isObservable(this.#update(params))) {
             this.#isFetching$.next(true);
             (this.#update(params) as Observable<T>).subscribe({
@@ -95,7 +101,7 @@ export class ReactiveState<T> {
                 this.#data$.next(undefined);
                 this.#isSuccess$.next(false);
                 this.#isError$.next(true);
-                console.log('Error on updating ReactiveState: ', e);
+                console.error('Error on updating ReactiveState: ', e);
             }
         }
     }
