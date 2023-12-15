@@ -1,0 +1,13 @@
+.svg-icon {
+    cursor: pointer;
+    transition: all ease-in-out 200ms;
+
+    &--not-available {
+        cursor: not-allowed;
+        fill: #5c0512;
+    }
+
+    &:not(.svg-icon--not-available):hover {
+        fill: #fff;
+    }
+}
