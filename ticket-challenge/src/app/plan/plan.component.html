@@ -1,1 +1,13 @@
 <!-- You should implement the UI just like the plan-desing file -->
+<section class="parent-section">
+    <div class="seats">
+        <ng-container *ngIf="mapDetail.isError$ | async">error occurred!</ng-container>
+        <ng-container *ngIf="mapDetail.isFetching$ | async">fetching...</ng-container>
+        <ng-container *ngIf="mapDetail.isSuccess$ | async">
+            <div class="seats_row" *ngFor="let row of mapDetail.data$ | async">
+                <app-seat *ngFor="let seat of row" [isNotAvailable]="seat"></app-seat>
+            </div>
+        </ng-container>
+    </div>
+</section>
+
