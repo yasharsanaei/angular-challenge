@@ -1,13 +1,17 @@
-<section>
-    <div class="loading" *ngIf="map.isFetching$ | async">در حال دریافت اطلاعات</div>
-    <div class="error" *ngIf="map.isError$ | async">
+<section class="parent-section">
+    <p *ngIf="map.isFetching$ | async">در حال دریافت اطلاعات</p>
+    <div class="container" *ngIf="map.isError$ | async">
         <p>خطا در دریافت اطلاعات</p>
-        <button (click)="map.update()">تلاش مجدد</button>
+        <button class="btn" (click)="map.update()">تلاش مجدد</button>
     </div>
-    <ng-container *ngIf="map.isSuccess$ | async">
-        <a *ngFor="let item of map.data$ | async;index as index" [routerLink]="[item]">
-            <span>{{ index + 1 }} سالن </span>
-        </a>
+    <ng-container *ngIf="(map.isSuccess$ | async) && !(map.isFetching$ | async)">
+        <div class="container">
+            <a class="link" *ngFor="let item of map.data$ | async;index as index" [routerLink]="[item]">
+                <span>{{ index + 1 }} سالن </span>
+            </a>
+        </div>
+        <div class="container container--update-data">
+            <button class="btn" (click)="map.update()">به روز رسانی اطلاعات</button>
+        </div>
     </ng-container>
 </section>
-<!--TODO: a button to fetch again the value-->
